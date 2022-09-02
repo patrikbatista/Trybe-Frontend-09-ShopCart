@@ -1,6 +1,22 @@
 // const items = document.querySelector('.items');
 const cartItems = '.cart__items';
-
+// requisito 5
+// fazendo a funcao somar
+const sumItems = () => {
+  const ol = document.querySelector('.cart__items');
+  const olItem = [...ol.children];
+  const priceOl = olItem.reduce((acc, item) => {
+    let acumulator = acc;
+    acumulator += Number(item.innerText.split('$')[1]);
+    return acumulator;
+  }, 0);
+  return priceOl;
+};
+// funcao adiciona soma na total
+const totalPrice = () => {
+  const total = document.querySelector('.total-price');
+  total.innerText = `Total: R$ ${Math.round(sumItems() * 100) / 100}`;
+};
 // requisito 4, funcao salvar local storage
 
 const saveLocalStorage = () => {
@@ -43,6 +59,7 @@ function cartItemClickListener(event) {
   // coloque seu código aqui
   event.target.remove(); // onde clicar vai remover
   saveLocalStorage();
+  totalPrice();
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
@@ -84,6 +101,7 @@ const addItemCart = (element) => {
     const sectionCart = document.querySelector(cartItems);
     sectionCart.appendChild(LiItem);
     saveLocalStorage();
+    totalPrice();
   });
 };
 
@@ -120,4 +138,5 @@ window.onload = () => {
  buttonItem();
  getLocalStorage();
  buttonRemove();
+ totalPrice();
 };
